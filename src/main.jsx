@@ -28,8 +28,8 @@ const SVG_SNIFF_BYTES = 512 * 1024;
 const SVG_EXTRACTION_CHAR_LIMIT = 512 * 1024;
 const ASSET_BASE_URL = import.meta.env.BASE_URL || "./";
 const AIRDOKAN_URL = "https://airdokan.com/";
-const CREATOR_X_URL = "https://x.com/airdokan";
-const CREATOR_LINKEDIN_URL = "https://www.linkedin.com/company/airdokan/";
+const CREATOR_X_URL = "https://x.com/bashar_me1";
+const CREATOR_LINKEDIN_URL = "https://www.linkedin.com/in/findbashar/";
 
 const hasWebflowDesignerApi = () =>
   typeof window.webflow !== "undefined" &&

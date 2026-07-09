@@ -1,5 +1,6 @@
 node_modules/
 dist/
+webflow-app-skill/
 .DS_Store
 *.log
 /*.png
