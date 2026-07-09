@@ -10,6 +10,7 @@ import {
   HelpCircle,
   Images,
   Info,
+  Plus,
   Lock,
   Trash2,
   Upload,
@@ -344,16 +345,13 @@ function App() {
     <main className="min-h-dvh bg-[#f8fafc] text-[#070b18]">
       <section className="min-h-dvh overflow-hidden rounded-[10px] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(16,24,40,0.10)]">
         <header className="flex min-h-[64px] items-center justify-between border-b border-slate-200 px-5">
-          <a
+          <div
             className="inline-flex items-center gap-3"
-            href={AIRDOKAN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit AirDokan"
+            aria-label="AssetPaste"
           >
-            <img className="h-8 w-8 rounded-lg" src={`${ASSET_BASE_URL}assets/airdokan-mark.png`} alt="" />
-            <img className="h-[23px] w-auto" src={`${ASSET_BASE_URL}assets/airdokan-wordmark.png`} alt="AirDokan" />
-          </a>
+            <img className="h-9 w-9 rounded-lg" src={`${ASSET_BASE_URL}assets/assetpaste-icon.png`} alt="" />
+            <span className="text-xl font-black leading-none text-[#070b18]">AssetPaste</span>
+          </div>
 
           <div className="flex items-center gap-2">
             <IconOnlyButton
@@ -454,6 +452,12 @@ function App() {
 
             {selectedItem && selectedMeta ? (
               <form className="grid gap-4" onSubmit={handleUpload}>
+                <AddMorePrompt
+                  count={assetItems.length}
+                  onChooseFile={() => fileInputRef.current?.click()}
+                  onReadClipboard={readClipboard}
+                />
+
                 <div className="grid items-center gap-4 md:grid-cols-[minmax(180px,300px)_1fr]">
                   <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
                     <img
@@ -602,6 +606,39 @@ function App() {
       </section>
       {toast ? <Toast key={toastId} toast={toast} onClose={() => setToast(null)} /> : null}
     </main>
+  );
+}
+
+function AddMorePrompt({ count, onChooseFile, onReadClipboard }) {
+  return (
+    <div className="grid gap-3 rounded-lg border border-blue-200 bg-blue-50/60 p-3 sm:grid-cols-[1fr_auto] sm:items-center">
+      <div className="min-w-0">
+        <strong className="block text-sm font-black text-[#074bd5]">
+          {count === 1 ? "Want to add another image?" : `${count} images in your queue`}
+        </strong>
+        <span className="mt-1 block text-sm font-medium text-[#5d6886]">
+          Paste again with Cmd+V or choose more files. New images will be added to this upload queue.
+        </span>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <button
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-white px-3 text-sm font-extrabold text-[#075df6] ring-1 ring-blue-200 transition hover:bg-blue-50"
+          type="button"
+          onClick={onReadClipboard}
+        >
+          <Clipboard className="h-4 w-4" strokeWidth={2.2} />
+          Paste
+        </button>
+        <button
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-white px-3 text-sm font-extrabold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
+          type="button"
+          onClick={onChooseFile}
+        >
+          <Plus className="h-4 w-4" strokeWidth={2.3} />
+          Add files
+        </button>
+      </div>
+    </div>
   );
 }
 
