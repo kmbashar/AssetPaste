@@ -344,13 +344,15 @@ function App() {
   return (
     <main className="min-h-dvh bg-[#f8fafc] text-[#070b18]">
       <section className="min-h-dvh overflow-hidden rounded-[10px] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(16,24,40,0.10)]">
-        <header className="flex min-h-[64px] items-center justify-between border-b border-slate-200 px-5">
-          <div
-            className="inline-flex items-center gap-3"
-            aria-label="AssetPaste"
-          >
-            <img className="h-9 w-9 rounded-lg" src={`${ASSET_BASE_URL}assets/assetpaste-icon.png`} alt="" />
-            <span className="text-xl font-black leading-none text-[#070b18]">AssetPaste</span>
+        <header className="flex min-h-[82px] items-center justify-between gap-4 border-b border-slate-200 px-5">
+          <div className="inline-flex min-w-0 items-center gap-2">
+            <img className="h-10 w-10 rounded-lg" src={`${ASSET_BASE_URL}assets/assetpaste-icon.png`} alt="" />
+            <div className="min-w-0">
+              <h1 className="text-xl font-black leading-none text-[#070b18]">AssetPaste</h1>
+              <p className="mt-1 text-sm font-medium leading-snug text-[#5d6886]">
+                Paste images directly into Webflow Assets.
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -373,21 +375,15 @@ function App() {
           </div>
         </header>
 
-        <div className="grid min-h-[calc(100dvh-64px-66px)] lg:grid-cols-[0.78fr_1fr]">
-          <section className="border-r border-slate-200 px-5 py-5">
-            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <h1 className="text-[32px] font-black leading-none sm:text-[38px]">
-                  AssetPaste
-                </h1>
-                <p className="mt-2 text-base font-medium text-[#5d6886]">Paste images directly into Webflow Assets.</p>
-              </div>
-              {assetItems.length ? (
+        <div className="grid min-h-[calc(100dvh-82px-66px)] lg:grid-cols-[0.78fr_1fr]">
+          <section className="border-r border-slate-200 px-5 py-4">
+            {assetItems.length ? (
+              <div className="mb-3 flex justify-end">
                 <span className="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-extrabold text-slate-700">
                   {assetItems.length} queued
                 </span>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
 
             <PasteZone
               isDragging={isDragging}
@@ -645,7 +641,7 @@ function AddMorePrompt({ count, onChooseFile, onReadClipboard }) {
 function PasteZone({ isDragging, onChooseFile, onDragLeave, onDragOver, onDrop, onReadClipboard }) {
   return (
     <div
-      className={`grid min-h-[270px] place-items-center rounded-xl border-2 border-dashed p-5 text-center transition ${
+      className={`grid min-h-[340px] place-items-center rounded-xl border-2 border-dashed p-5 text-center transition ${
         isDragging
           ? "border-[#075df6] bg-blue-50"
           : "border-blue-200 bg-white"
