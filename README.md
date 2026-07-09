@@ -17,7 +17,7 @@ Made by [AirDokan](https://airdokan.com/).
 - Replaces old status messages so fixed errors and clear states do not linger.
 - Automatically optimizes PNG, JPG, WebP, and AVIF files over Webflow's 4 MB image limit into high-quality WebP before upload.
 - Preserves image quality by wrapping the original `Blob/File` bytes in a renamed `File` instead of drawing through canvas.
-- Includes rounded in-app and non-rounded submission icon assets in `public/assets`.
+- Includes rounded in-app and non-rounded submission icon source assets in `brand-assets`.
 - Uses a modern React and Tailwind frontend built with Vite.
 - Calls `webflow.createAsset(file)` when running inside Webflow Designer.
 - Simulates upload locally so the UI can be tested without Webflow.
