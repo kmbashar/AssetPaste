@@ -8,7 +8,7 @@ AssetPaste helps you add images to Webflow faster. Copy one or more images from 
 
 Made by [AirDokan](https://airdokan.com/).
 
-## What the MVP does
+## What the app does
 
 - Accepts one or multiple pasted image files from Figma and other apps.
 - Accepts drag-and-drop and multi-file picker uploads.
