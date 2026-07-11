@@ -2,5 +2,8 @@
   "name": "AssetPaste",
   "apiVersion": "2",
   "size": "large",
+  "scopes": [
+    "assets:write"
+  ],
   "publicDir": "dist"
 }

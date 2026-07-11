@@ -3,10 +3,8 @@ import { createRoot } from "react-dom/client";
 import {
   Check,
   Clipboard,
-  ExternalLink,
   FileImage,
   FolderOpen,
-  Globe2,
   HelpCircle,
   Images,
   Info,
@@ -27,9 +25,6 @@ const RASTERIZED_SVG_EXTENSION = "png";
 const SVG_SNIFF_BYTES = 512 * 1024;
 const SVG_EXTRACTION_CHAR_LIMIT = 512 * 1024;
 const ASSET_BASE_URL = import.meta.env.BASE_URL || "./";
-const AIRDOKAN_URL = "https://airdokan.com/";
-const CREATOR_X_URL = "https://x.com/bashar_me1";
-const CREATOR_LINKEDIN_URL = "https://www.linkedin.com/in/findbashar/";
 
 const hasWebflowDesignerApi = () =>
   typeof window.webflow !== "undefined" &&
@@ -375,7 +370,7 @@ function App() {
           </div>
         </header>
 
-        <div className="grid min-h-[calc(100dvh-82px-66px)] lg:grid-cols-[0.78fr_1fr]">
+        <div className="grid min-h-[calc(100dvh-82px)] lg:grid-cols-[0.78fr_1fr]">
           <section className="border-r border-slate-200 px-5 py-4">
             {assetItems.length ? (
               <div className="mb-3 flex justify-end">
@@ -576,29 +571,6 @@ function App() {
           </section>
         </div>
 
-        <footer className="flex min-h-[66px] flex-wrap items-center justify-between gap-3 border-t border-slate-200 px-5">
-          <a
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#5d6886]"
-            href={AIRDOKAN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>Made by</span>
-            <strong className="text-[#075df6]">AirDokan</strong>
-            <ExternalLink className="h-4 w-4 text-[#075df6]" strokeWidth={2.2} />
-          </a>
-          <nav className="flex items-center gap-2" aria-label="Creator links">
-            <SocialLink href={AIRDOKAN_URL} label="AirDokan website">
-              <Globe2 className="h-4 w-4" strokeWidth={2.2} />
-            </SocialLink>
-            <SocialLink href={CREATOR_X_URL} label="AirDokan on X">
-              <span className="text-sm font-black">X</span>
-            </SocialLink>
-            <SocialLink href={CREATOR_LINKEDIN_URL} label="AirDokan on LinkedIn">
-              <span className="text-sm font-black">in</span>
-            </SocialLink>
-          </nav>
-        </footer>
       </section>
       {toast ? <Toast key={toastId} toast={toast} onClose={() => setToast(null)} /> : null}
     </main>
@@ -751,21 +723,6 @@ function EmptyPreview() {
         </p>
       </div>
     </div>
-  );
-}
-
-function SocialLink({ href, label, children }) {
-  return (
-    <a
-      className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-[#075df6] hover:bg-blue-50 hover:text-[#075df6]"
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      title={label}
-    >
-      {children}
-    </a>
   );
 }
 
@@ -1095,15 +1052,6 @@ async function resolveImagesFromDataTransfer(dataTransfer) {
     return files;
   }
 
-  const imageSource = html ? getImageSourceFromHtml(html) : "";
-  if (imageSource && looksLikeImageSource(imageSource)) {
-    return [await imageSourceToFile(imageSource)];
-  }
-
-  if (text && looksLikeImageSource(text)) {
-    return [await imageSourceToFile(text)];
-  }
-
   return [];
 }
 
@@ -1130,12 +1078,6 @@ function getImageFilesFromDataTransfer(dataTransfer) {
   }
 
   return itemFiles;
-}
-
-function getImageSourceFromHtml(html) {
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  const img = doc.querySelector("img[src]");
-  return img?.getAttribute("src") || "";
 }
 
 function extractSvgMarkup(value) {
@@ -1218,33 +1160,6 @@ function isExternalReference(value) {
 
 function hasExternalReference(value) {
   return /url\(\s*['"]?(https?:|\/\/|javascript:|data:text\/html)/i.test(value);
-}
-
-function looksLikeImageSource(value) {
-  return (
-    value.startsWith("data:image/") ||
-    /^https?:\/\/.+\.(png|jpe?g|webp|gif|svg|avif|bmp|ico)(\?.*)?$/i.test(value)
-  );
-}
-
-async function imageSourceToFile(source) {
-  if (source.startsWith("data:image/")) {
-    const response = await fetch(source);
-    const blob = await response.blob();
-    return blobToFile(blob, makeDefaultFilename(blob.type, "pasted-image"));
-  }
-
-  const response = await fetch(source, { mode: "cors" });
-  if (!response.ok) {
-    throw new Error(`Could not fetch pasted image URL (${response.status}).`);
-  }
-
-  const blob = await response.blob();
-  if (!blob.type.startsWith(ACCEPTED_IMAGE_PREFIX)) {
-    throw new Error("The pasted URL did not resolve to an image.");
-  }
-
-  return blobToFile(blob, filenameFromUrl(source, blob.type));
 }
 
 function isImageFile(file) {
@@ -1356,16 +1271,6 @@ function makeDefaultFilename(mimeType, prefix = "assetpaste-image") {
     .replace("T", "-");
 
   return `${prefix}-${timestamp}.${extensionFromMimeType(mimeType)}`;
-}
-
-function filenameFromUrl(source, mimeType) {
-  try {
-    const url = new URL(source);
-    const rawName = decodeURIComponent(url.pathname.split("/").pop() || "");
-    return ensureImageExtension(sanitizeFilename(rawName), mimeType) || makeDefaultFilename(mimeType, "linked-image");
-  } catch {
-    return makeDefaultFilename(mimeType, "linked-image");
-  }
 }
 
 function getSvgSuggestedName(svgMarkup) {
